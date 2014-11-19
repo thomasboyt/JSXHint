@@ -24,7 +24,7 @@ var extend = require('extend');
 // calling jshint. Because jsxhint is run in part of a callback of jshint after
 // this check, we need to store jsxhint options someplace globally so we can
 // access them inside the callback.
-var acceptedJSXHintOptions = ['--jsx-only', '--6to5'];
+var acceptedJSXHintOptions = ['--jsx-only', '--6to5', '--strip-types'];
 var jsxhintOptions = {};
 
 /**
@@ -40,6 +40,8 @@ function showHelp(){
                '                         Will run somewhat faster.\n');
     this.queue('      --6to5             Use 6to5 (acorn parser) instead of react esprima.\n' +
                '                         Useful if you are using es6-module/es7-async/etc.\n');
+    this.queue('      --strip-types      Enable the `stripTypes` option to remove Flow type\n' +
+               '                         assertions.\n');
   });
   jshint_proc.stderr.pipe(ts).pipe(process.stderr);
 }
