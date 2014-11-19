@@ -62,12 +62,17 @@ test('Convert JSX to JS', function(t){
     t.equal(data.match(/<form/), null, 'JS was not properly converted. (Using --6to5)');
   });
 
-  var jsxhint_proc = child_process.fork('../cli', ['fixtures/test_es6module.jsx'], {silent: true});
-  drain_stream(jsxhint_proc.stdout, function(err, jsxhintOut){
+  jsxhint.transformJSX('./fixtures/test_typed.jsx', { '--strip-types':true }, function(err, data){
     t.ifError(err);
-    t.equal(jsxhintOut, 'fixtures/test_es6module.jsx: line 3, col 8, Unexpected token *\n\n1 error\n',
-      'JSXHint should fail using esprima parser.');
+    t.equal(data.match(/<form/), null, 'JS was not properly converted. (Using --strip-types)');
   });
+
+  // var jsxhint_proc = child_process.fork('../cli', ['fixtures/test_es6module.jsx'], {silent: true});
+  // drain_stream(jsxhint_proc.stdout, function(err, jsxhintOut){
+  //   t.ifError(err);
+  //   t.equal(jsxhintOut, 'fixtures/test_es6module.jsx: line 3, col 8, Unexpected token *\n\n1 error\n',
+  //     'JSXHint should fail using esprima parser.');
+  // });
 
   var jsxhint_proc = child_process.fork('../cli', ['--6to5', 'fixtures/test_es6module.jsx'], {silent: true});
   drain_stream(jsxhint_proc.stdout, function(err, jsxhintOut){
